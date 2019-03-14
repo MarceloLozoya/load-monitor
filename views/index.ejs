@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html ng-app="app" lang="en" ng-cloak>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/css/lib/angularjs-material.css' />
+    <link rel='stylesheet' href='/css/style.css' />
+
+    <script src="/js/lib/angularjs.js"></script>
+    <script src="/js/lib/angularjs-animate.js"></script>
+    <script src="/js/lib/angularjs-aria.js"></script>
+    <script src="/js/lib/angularjs-messages.js"></script>
+
+    <script src="/js/lib/moment.js"></script>
+    <script src="/js/lib/angularjs-material.js"></script>
+    <script src="/js/lib/Chart.js"></script>
+    <script src="/js/lib/angularjs-chart.js"></script>
+    <script src="/js/lib/chartjs-plugin-streaming.js"></script>
+
+    <script src="/js/app/app.js"></script>
+    <script src="/js/app/service/CrudHttpService.js"></script>
+    <script src="/js/app/service/DataService.js"></script>
+    <script src="/js/app/controller/LoadDataController.js"></script>
+
+</head>
+<body ng-controller="LoadDataController as dataCtrl" ng-init="dataCtrl.init();">
+<div id="header">
+    <h3><%= title %></h3>
+</div>
+
+<div id="chart-container" class="md-padding" layout-gt-sm="row" layout="column">
+    <div flex-gt-sm="70" flex class="md-padding">
+        <canvas id="line" class="chart chart-line" chart-data="dataCtrl.averages"
+                chart-labels="dataCtrl.labels" chart-series="dataCtrl.series" chart-options="dataCtrl.options"
+                chart-dataset-override="dataCtrl.datasetOverride" chart-click="dataCtrl.onClick">
+        </canvas>
+    </div>
+
+    <div id="alert-column" flex-gt-sm="30" flex class="md-padding">
+        <div id="alert-header">
+            <h5 class="text-center">Alerts</h5>
+        </div>
+
+        <div id="alert-container">
+            <div ng-if="dataCtrl.alerts.length === 0">
+                <h5 class="text-center">- No alerts -</h5>
+            </div>
+            <div ng-if="dataCtrl.alerts.length > 0" ng-repeat="item in dataCtrl.alerts | orderBy:'-'" class="alert-item text-center" ng-style="{'background-color': item.bgColor}">
+                <div ng-if="item.messageLine1">
+                    <strong>{{ item.messageLine1 }}</strong>
+                </div>
+
+                <div ng-if="item.messageLine2">
+                    {{ item.messageLine2 }}
+                </div>
+
+                <div ng-if="item.messageLine3">
+                    {{ item.messageLine3 }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
